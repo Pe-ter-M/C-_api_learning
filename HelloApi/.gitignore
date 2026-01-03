@@ -1,0 +1,22 @@
+# Build outputs
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IDE folders
+.vs/
+.vscode/
+.idea/
+
+# Environment-specific configs
+appsettings.*.json
+!appsettings.json  # Keep the base file
+
+# NuGet
+packages/
+.nuget/
