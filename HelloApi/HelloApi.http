@@ -1,6 +1,6 @@
-@HelloApi_HostAddress = http://localhost:5185
+@HelloApi_HostAddress = http://localhost:5185/api
 
-GET {{HelloApi_HostAddress}}/
+GET {{HelloApi_HostAddress}}/users
 Accept: application/json
 
 ###
