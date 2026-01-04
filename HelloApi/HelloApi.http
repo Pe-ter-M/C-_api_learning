@@ -1,6 +1,7 @@
 @HelloApi_HostAddress = http://localhost:5185/api
 
-GET {{HelloApi_HostAddress}}/users/2
+GET {{HelloApi_HostAddress}}/users
 Accept: application/json
 
 ###
+DELETE {{HelloApi_HostAddress}}/users/1

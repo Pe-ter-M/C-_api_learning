@@ -8,20 +8,15 @@ public static class UsersEndpoints
     {
         new User { Id = 1, FirstName = "John", LastName = "Doe", Email = "john@example.com", Age = 25 },
         new User { Id = 2, FirstName = "Jane", LastName = "Smith", Email = "jane@example.com", Age = 30 }
-    }; public static void MapUsersEndpoints(this WebApplication app)
+    };
+    public static void MapUsersEndpoints(this WebApplication app)
     {
-        // var users = new List<User>
-        // {
-        //     new User { Id = 1, FirstName = "John", LastName = "Doe", Email = "john@example.com", Age = 25 },
-        //     new User { Id = 2, FirstName = "Jane", LastName = "Smith", Email = "jane@example.com", Age = 30 }
-        // };
-
 
         var usersGroup = app.MapGroup("/api/users")
             .WithTags("Users");
 
         // GET /api/users
-        usersGroup.MapGet("/", All_users);
+        usersGroup.MapGet("/", All_users).WithName("Users");
 
         // GET /api/users/{id}
         usersGroup.MapGet("/{id}", Get_user_by_id);
@@ -30,26 +25,10 @@ public static class UsersEndpoints
         usersGroup.MapPost("/", Create_User);
 
         // PUT /api/users/{id}
-        usersGroup.MapPut("/{id}", (int id, UpdateUserDto updatedUser) =>
-        {
-            var user = users.FirstOrDefault(u => u.Id == id);
-            if (user == null)
-                return Results.NotFound($"User with ID {id} not found");
-
-            // Update logic...
-            return Results.Ok(user);
-        });
+        usersGroup.MapPut("/{id}", Update_user);
 
         // DELETE /api/users/{id}
-        usersGroup.MapDelete("/{id}", (int id) =>
-        {
-            var user = users.FirstOrDefault(u => u.Id == id);
-            if (user == null)
-                return Results.NotFound($"User with ID {id} not found");
-
-            users.Remove(user);
-            return Results.Ok($"User with ID {id} deleted");
-        });
+        usersGroup.MapDelete("/{id}", Delete_user);
     }
     public static List<User> All_users()
     {
@@ -87,5 +66,23 @@ public static class UsersEndpoints
 
         users.Add(user);
         return Results.Created($"/api/users/{user.Id}", user);
+    }
+    private static IResult Update_user(int id, UpdateUserDto updatedUser)
+    {
+        var user = users.FirstOrDefault(u => u.Id == id);
+        if (user == null)
+            return Results.NotFound($"User with ID {id} not found");
+
+        // Update logic...
+        return Results.Ok(user);
+    }
+    private static IResult Delete_user(int id)
+    {
+        var user = users.FirstOrDefault(u => u.Id == id);
+        if (user == null)
+            return Results.NotFound($"User with ID {id} not found");
+
+        users.Remove(user);
+        return Results.Ok($"User with ID {id} deleted");
     }
 }
