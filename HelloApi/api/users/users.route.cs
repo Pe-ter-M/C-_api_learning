@@ -1,6 +1,7 @@
 // UsersEndpoints.cs
 using users_dtos;
 
+
 public static class UsersEndpoints
 {
     private static int GetNextId() => users.Any() ? users.Max(u => u.Id) + 1 : 1;
